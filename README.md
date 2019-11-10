@@ -165,8 +165,6 @@ You may only build assumptions how it should work, and try to create build confi
 However, no one guarantee that new even minor release would not break your building process because of slightest
 differences in configurations and/or scripts.
 
-## Create symlinks without whitespaces
-
 Historically, whitespaces in Windows paths keep staying one of dangerous points of building process. 
 Working fine most of the time, it may stop working with introducing new feature, like it happened with migrating 
 Virtualbox Guest Additions compiler to Visual C++ 12.0 (part of Visual Studio 2013). Build system refused to 
