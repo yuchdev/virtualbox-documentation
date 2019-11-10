@@ -182,6 +182,8 @@ List of symlinks you are strongly advised to create:
 * Windows SDK 8.1 `C:/Program Files (x86)/Windows Kits/8.1` to `C:/WinSDK/8.1`
 * Microsoft DirectX SDK `C:/Program Files (x86)/Microsoft DirectX SDK` to `C:/WinSDK/DirectX`
 * Windows DDK 8.0 `C:/Program Files (x86)/Windows Kits/8.0` to `C:/WinDDK/8.0`
+* Visual Studio 2010 `C:/Program Files (x86)/Microsoft Visual Studio 10.0` to `C:/MSVS/10.0`
+* Visual Studio 2013 `C:/Program Files (x86)/Microsoft Visual Studio 12.0` to `C:/MSVS/12.0`
 
 Windows DDK 7.1 is installed into the root directory by default, so make sense to put it near Windows DDK 8.0,
 for example `C:/WinDDK/7600.16385.1`
