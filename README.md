@@ -46,18 +46,76 @@ Refer to your BIOS documentation to turn it off.
 These tools are necessary both for compiling Virtualbox itself, and most of 3rd party libraries, 
 so you should install it first. Not surprisingly, most of them are Microsoft compilers, SDKs and tools.
 
+* .NET Framework 3.5
 * Windows Software Developer Kit 7.1
 * Windows Software Developer Kit 8.1
 * Windows Driver Developer Kit 7.1
 * Windows Driver Developer Kit 8.0
-* Visual Studio 2010 SP1 Professional
-* Visual Studio 2010 updates
-* Visual Studio 2010 VersionInfo plugin
+* Visual Studio 2010 Professional Service Pack 1
 * Visual Studio 2013 Update 5 Professional or Ultimate
-* ActivePerl 5.26
-* ActivePython 2.7
+* ActiveState Perl 5.26
+* ActiveState Python 2.7
 
-## Installing all necessary software
+
+## Installing all necessary software using scripts
+
+1. First, clone the Virtualbox prerequisites:
+
+`git clone https://github.com/yuchdev/VirtualboxPrerequisites`
+
+2. For the next step `wget.exe` for Windows should be available in your PATH environment variable.
+Copy file `VirtualboxPrerequisites/download/wget_software.cmd` to the directory where you want to download all the 7z-packages.
+Be aware, overall size of packages is more than 10GB. Run `wget_software.cmd` to start downloading.
+
+3. Copy all files from directory 
+`VirtualboxPrerequisites/install_software/ms` and `VirtualboxPrerequisites/install_software/activestate`
+to the same directory, where you unpacked contents of packages. 
+
+4. Execute installation scripts in the following order (order is important!).
+
+First install .NET Framework 3.5, just in case if it's not installed yet
+
+* `dotnet35.cmd`
+
+Then install Microsoft SDKs and DDKs:
+
+* `winddk71.cmd`
+* `winsdk71.cmd`
+* `winddk80.cmd`
+* `winsdk81.cmd`
+
+After that, run `en-visual-studio-2010-pro-x86\setup.exe`, and install Visual Studio 2010 Professional manually.
+As for the current moment, it is not automated yet.
+Choose Custom installation, and pick up **only** C++ compilers, including x64 compiler. All other components are not necessary.
+
+Then resume autometed installation of Visual Studio 2010 SP1 and updates:
+
+* `msvs2010_updates.cmd`
+
+After that, install Visual Studio 2013 Update 5. You should pass a path to file 
+`VirtualboxPrerequisites/install_software/ms/vc2013unattend/AdminDeployment.xml` as a command-line param.
+
+* `msvs2013_update5.cmd <PATH_TO_ADMINFILE>`
+
+Finally, install ActiveState products, ActivePerl and ActivePython
+
+* `active_state_install.cmd`
+
+## Installing all necessary software manually
+
+Download all neccessary software
+
+* [.NET Framework 3.5](https://vbox-prerequisites-bucket.s3.us-east-1.amazonaws.com/dotnet-35.7z)
+* [Windows Software Developer Kit 7.1](https://vbox-prerequisites-bucket.s3.us-east-1.amazonaws.com/windows-sdk-71-x64.7z)
+* [Windows Software Developer Kit 8.1](https://vbox-prerequisites-bucket.s3.us-east-1.amazonaws.com/windows-sdk-81.7z)
+* [Windows Driver Developer Kit 7.1](https://vbox-prerequisites-bucket.s3.us-east-1.amazonaws.com/windows-ddk-71.7z)
+* [Windows Driver Developer Kit 8.0](https://vbox-prerequisites-bucket.s3.us-east-1.amazonaws.com/windows-ddk-80.7z)
+* [Visual Studio 2010 Professional](https://vbox-prerequisites-bucket.s3.us-east-1.amazonaws.com/en-visual-studio-2010-pro-x86.7z)
+* [Visual Studio 2010 SP1](https://vbox-prerequisites-bucket.s3.us-east-1.amazonaws.com/mu-visual-studio-2010-sp1-x86.7z)
+* [Visual Studio 2010 updates and VersionInfo plugin](https://vbox-prerequisites-bucket.s3.us-east-1.amazonaws.com/en-visual-studio-2010-sp1-updates-x86.7z)
+* [Visual Studio 2013 Update 5 Professional](https://vbox-prerequisites-bucket.s3.us-east-1.amazonaws.com/en-visual-studio-professional-2013-update-5-x86.7z)
+* [ActivePerl 5.26 and ActivePython 2.7](https://vbox-prerequisites-bucket.s3.us-east-1.amazonaws.com/active-state-perl-5.26.3-python-2.7.14.7z)
+
 
 ### Windows Software Developer Kit 7.1
 
@@ -109,9 +167,27 @@ Plugin for checking updates consistency could be run from the Visual Studio 2010
 
 ## Downloading dependencies
 The most convenient way of installing all of the 3rd-party dependencies, 
-is to download it from Virtualbox OSE Git repository, on the Github.
-Dependencies are sorted out into several archives, which are install by default to the root of the system drive. 
+is to download it from Virtualbox pre-requisites storage.
+Dependencies are sorted out into several archives, which recommended to unpack to the root of the system drive. 
 Such a measure is important, because in most of the cases configured paths must not contain spaces. 
+
+* [Qt 5.6.3](https://vbox-prerequisites-bucket.s3.us-east-1.amazonaws.com/qt-bin-5.6.3.7z)
+* [Binaries](https://vbox-prerequisites-bucket.s3.us-east-1.amazonaws.com/bin.7z)
+* [Libraries](https://vbox-prerequisites-bucket.s3.us-east-1.amazonaws.com/lib.7z)
+* [Open Watcom](https://vbox-prerequisites-bucket.s3.us-east-1.amazonaws.com/watcom-bin-1.9.7z)
+
+If you cloned `VirtualboxPrerequisites` already, you can copy 
+`VirtualboxPrerequisites/download/wget_dependencies.cmd`
+to the directory where you want to download all the 7z-packages.
+Remember, `wget.exe` for Windows should be available in your PATH environment variable.
+Run `wget_dependencies.cmd` to start downloading.
+
+After un-archiving in the root of C:, you should have the following directories:
+
+* C:\Qt
+* C:\bin
+* C:\lib
+* C:\WATCOM
 
 **By the way, also they may need opposite slash directions from dependency to dependency,
 when putting the path in configuration. It could be explained with an enormous legacy of a product, 
@@ -127,13 +203,6 @@ If you have several versions of Qt installed, avoid hardcode it in the PATH envi
 Some components, like BIOS, require legacy compiler WATCOM 1.9 to build, 
 it could also be installed in the system drive root with setting some environment variables. 
 Possibility of migration to WATCOM 2.0 is being discussed.
-In summary, after installing 3rd party dependencies, you should have the following directories 
-in your system drive root:
-
-* C:/bin
-* C:/lib
-* C:/Qt
-* C:/WATCOM
 
 ## Compiling dependencies from the scratch
 
